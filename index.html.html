@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PerfectGrass — Lawn Care You Can Count On</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep: #1a3320;
+    --green-mid: #2d5a3d;
+    --green-bright: #4a9c6b;
+    --green-light: #a8d5b5;
+    --cream: #f7f4ee;
+    --warm-white: #fdfcf9;
+    --text-dark: #1a1a18;
+    --text-mid: #4a4a44;
+    --text-muted: #888880;
+    --accent: #c8e63c;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: rgba(253,252,249,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--green-deep);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--green-bright); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 0.875rem; color: var(--text-mid); font-weight: 400; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green-deep); }
+  .nav-cta {
+    background: var(--green-deep); color: var(--cream);
+    padding: 0.6rem 1.4rem; border-radius: 100px;
+    font-size: 0.875rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(74,156,107,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 3rem 4rem 5rem;
+    position: relative; z-index: 1;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green-mid); margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 24px; height: 2px; background: var(--green-bright);
+    border-radius: 2px;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--green-deep);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--green-bright); }
+  .hero-sub {
+    font-size: 1.05rem; line-height: 1.7; color: var(--text-mid);
+    max-width: 420px; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--green-deep); color: var(--cream);
+    padding: 0.85rem 2rem; border-radius: 100px;
+    font-size: 0.95rem; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(26,51,32,0.25);
+  }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,51,32,0.3); }
+  .btn-ghost {
+    color: var(--green-deep); font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 6px;
+    transition: gap 0.2s;
+  }
+  .btn-ghost:hover { gap: 10px; }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.08);
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: var(--green-deep);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 4rem 4rem 4rem 2rem;
+    position: relative; z-index: 1;
+  }
+  .hero-img-wrap {
+    width: 100%; max-width: 480px;
+    aspect-ratio: 4/5;
+    border-radius: 2rem 2rem 8rem 2rem;
+    background: linear-gradient(145deg, #2d5a3d 0%, #1a3320 60%);
+    position: relative; overflow: hidden;
+    box-shadow: 0 32px 80px rgba(26,51,32,0.3);
+  }
+  .hero-img-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(200,230,60,0.15), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(74,156,107,0.3), transparent 50%);
+  }
+  .grass-pattern {
+    position: absolute; inset: 0;
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0;
+    padding: 0 20px;
+    overflow: hidden;
+  }
+  .blade {
+    width: 6px; height: 0;
+    background: linear-gradient(to top, #4a9c6b, #a8d5b5);
+    border-radius: 3px 3px 0 0;
+    margin: 0 3px;
+    animation: grow 1.2s ease forwards;
+    transform-origin: bottom center;
+    opacity: 0;
+  }
+  @keyframes grow {
+    to { height: var(--h); opacity: 1; }
+  }
+  .hero-badge {
+    position: absolute; top: 2rem; right: -1rem;
+    background: var(--accent); color: var(--green-deep);
+    border-radius: 1rem; padding: 1rem 1.25rem;
+    font-weight: 500; font-size: 0.85rem; line-height: 1.4;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-badge strong { display: block; font-size: 1.4rem; }
+
+  /* SECTION COMMONS */
+  section { padding: 6rem 5rem; }
+  .section-tag {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--green-bright); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--green-bright); border-radius: 2px; }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.15; letter-spacing: -0.02em;
+    color: var(--green-deep); margin-bottom: 1rem;
+  }
+  .section-sub { font-size: 1rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; max-width: 520px; }
+
+  /* SERVICES */
+  .services { background: var(--warm-white); }
+  .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .service-card {
+    background: var(--cream);
+    border-radius: 1.5rem; padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(74,156,107,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(26,51,32,0.1); }
+  .service-card.featured {
+    background: var(--green-deep); color: var(--cream);
+  }
+  .service-card.featured .service-desc { color: var(--green-light); }
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--green-light); display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.5rem;
+  }
+  .service-card.featured .service-icon { background: rgba(255,255,255,0.15); }
+  .service-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem; color: var(--green-deep); margin-bottom: 0.75rem;
+  }
+  .service-card.featured .service-name { color: var(--cream); }
+  .service-desc { font-size: 0.9rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+  .service-price {
+    margin-top: 1.5rem; font-weight: 500; font-size: 0.9rem;
+    color: var(--green-bright);
+  }
+  .service-card.featured .service-price { color: var(--accent); }
+
+  /* HOW IT WORKS */
+  .how { background: var(--cream); }
+  .how-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .steps { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex; gap: 1.5rem; padding: 1.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    cursor: default;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem; color: var(--green-light);
+    min-width: 28px; padding-top: 2px;
+  }
+  .step-content {}
+  .step-title { font-weight: 500; color: var(--green-deep); margin-bottom: 0.35rem; }
+  .step-desc { font-size: 0.875rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+  .how-visual {
+    background: var(--green-deep);
+    border-radius: 2rem; padding: 3rem;
+    aspect-ratio: 1;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    position: relative; overflow: hidden;
+  }
+  .how-visual::before {
+    content: '🌿';
+    position: absolute; top: 2rem; right: 2rem;
+    font-size: 5rem; opacity: 0.15;
+  }
+  .how-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1rem; padding: 1.25rem;
+    backdrop-filter: blur(8px);
+  }
+  .how-card-label { font-size: 0.75rem; color: var(--green-light); margin-bottom: 0.5rem; }
+  .how-card-value { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: var(--cream); }
+  .how-card-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--warm-white); }
+  .test-header { text-align: center; margin-bottom: 4rem; }
+  .test-header .section-tag { justify-content: center; }
+  .test-header .section-tag::before { display: none; }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .test-card {
+    background: var(--cream); border-radius: 1.5rem;
+    padding: 2rem; border: 1px solid rgba(0,0,0,0.05);
+  }
+  .stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .test-quote { font-size: 0.95rem; line-height: 1.7; color: var(--text-mid); font-weight: 300; margin-bottom: 1.5rem; font-style: italic; }
+  .test-author { display: flex; align-items: center; gap: 12px; }
+  .test-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green-mid); display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; color: var(--cream); font-size: 1rem;
+  }
+  .test-name { font-weight: 500; font-size: 0.875rem; color: var(--green-deep); }
+  .test-loc { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* CTA */
+  .cta-section {
+    background: var(--green-deep);
+    text-align: center; padding: 7rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(74,156,107,0.3), transparent 60%);
+  }
+  .cta-section .section-tag { justify-content: center; color: var(--green-light); }
+  .cta-section .section-tag::before { background: var(--green-light); }
+  .cta-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    color: var(--cream); line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 1rem;
+    position: relative;
+  }
+  .cta-title em { font-style: italic; color: var(--accent); }
+  .cta-sub { font-size: 1rem; color: var(--green-light); font-weight: 300; margin-bottom: 2.5rem; position: relative; }
+  .cta-form { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+  .cta-form-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative; width: 100%; max-width: 520px; margin: 0 auto; }
+  .cta-input {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: var(--cream); border-radius: 100px; padding: 0.85rem 1.5rem;
+    font-size: 0.95rem; font-family: 'DM Sans', sans-serif;
+    outline: none; width: 100%; transition: border 0.2s;
+  }
+  .cta-input::placeholder { color: rgba(255,255,255,0.4); }
+  .cta-input:focus { border-color: rgba(255,255,255,0.5); }
+  .cta-row { display: flex; gap: 12px; width: 100%; flex-wrap: wrap; }
+  .cta-row .cta-input { flex: 1; min-width: 160px; }
+  .cta-textarea {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: var(--cream); border-radius: 1.2rem; padding: 0.85rem 1.5rem;
+    font-size: 0.95rem; font-family: 'DM Sans', sans-serif;
+    outline: none; width: 100%; resize: none; height: 90px; transition: border 0.2s;
+  }
+  .cta-textarea::placeholder { color: rgba(255,255,255,0.4); }
+  .cta-textarea:focus { border-color: rgba(255,255,255,0.5); }
+  .btn-accent {
+    background: var(--accent); color: var(--green-deep);
+    padding: 0.85rem 2rem; border-radius: 100px;
+    font-size: 0.95rem; font-weight: 500; border: none;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 4px 20px rgba(200,230,60,0.3);
+    width: 100%;
+  }
+  .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,230,60,0.4); }
+  .cta-success { color: var(--accent); font-size: 1rem; font-weight: 500; display: none; margin-top: 0.5rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--text-dark); color: rgba(255,255,255,0.5);
+    padding: 2rem 5rem; display: flex;
+    justify-content: space-between; align-items: center;
+    font-size: 0.825rem; flex-wrap: wrap; gap: 1rem;
+  }
+  footer .logo { font-family: 'DM Serif Display', serif; color: var(--cream); font-size: 1.1rem; }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 6rem 1.5rem 2rem; }
+    .hero-right { padding: 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .services-grid, .test-grid { grid-template-columns: 1fr; }
+    .services-header { flex-direction: column; }
+    .how-inner { grid-template-columns: 1fr; gap: 2rem; }
+    footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+    .cta-section { padding: 4rem 1.5rem; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Perfect<span>Grass</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get a quote</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Local lawn care</div>
+    <h1 class="hero-title">Your lawn,<br><em>perfectly</em><br>kept.</h1>
+    <p class="hero-sub">Professional grass cutting and mowing for neighbours in your area. Reliable, affordable, and done right — every single time.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a service</a>
+      <a href="#services" class="btn-ghost">See services →</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">150+</div>
+        <div class="stat-label">Happy neighbours</div>
+      </div>
+      <div>
+        <div class="stat-num">5★</div>
+        <div class="stat-label">Average rating</div>
+      </div>
+      <div>
+        <div class="stat-num">Same</div>
+        <div class="stat-label">Week availability</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap" id="grassWrap">
+      <div class="grass-pattern" id="grassPattern"></div>
+      <div class="hero-badge">
+        <strong>✓</strong>
+        Trusted locally
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="services-header fade-up">
+    <div>
+      <div class="section-tag">What we do</div>
+      <h2 class="section-title">Simple, honest<br>lawn services</h2>
+    </div>
+    <p class="section-sub">No complicated packages. Just reliable lawn care that keeps your outdoor space looking great all year round.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-icon">🌿</div>
+      <div class="service-name">Grass Cutting</div>
+      <p class="service-desc">Regular cuts to keep your lawn at the perfect height. We work around your schedule and leave everything tidy.</p>
+      <div class="service-price">From $35 per visit</div>
+    </div>
+    <div class="service-card featured fade-up">
+      <div class="service-icon">✂️</div>
+      <div class="service-name">Lawn Mowing</div>
+      <p class="service-desc">Full mowing service with edge trimming included. Your lawn will look sharp, clean, and even every time.</p>
+      <div class="service-price">From $45 per visit</div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-icon">📅</div>
+      <div class="service-name">Regular Maintenance</div>
+      <p class="service-desc">Set up a weekly or fortnightly plan and never think about your lawn again. Consistent results, every visit.</p>
+      <div class="service-price">Custom plan pricing</div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="how-inner">
+    <div class="fade-up">
+      <div class="section-tag">How it works</div>
+      <h2 class="section-title">Ready in three easy steps</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-title">Get in touch</div>
+            <p class="step-desc">Drop us a message or call. Tell us your address and what you need — takes less than 2 minutes.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-title">We agree on a time</div>
+            <p class="step-desc">We'll find a time that suits you — often same week. No waiting around for weeks on end.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-title">Sit back and enjoy</div>
+            <p class="step-desc">We show up, do a great job, and leave your lawn looking perfect. Payment after the work is done.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="how-visual fade-up">
+      <div class="how-card">
+        <div class="how-card-label">Next available slot</div>
+        <div class="how-card-value">This week</div>
+        <div class="how-card-sub">Book now to secure your spot</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="reviews">
+  <div class="test-header fade-up">
+    <div class="section-tag">Reviews</div>
+    <h2 class="section-title">Neighbours love us</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card fade-up">
+      <div class="stars">★★★★★</div>
+      <p class="test-quote">"Showed up on time and did an amazing job. My lawn has never looked so good. Will definitely be booking again!"</p>
+      <div class="test-author">
+        <div class="test-avatar">S</div>
+        <div>
+          <div class="test-name">Sarah M.</div>
+          <div class="test-loc">2 streets away</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card fade-up">
+      <div class="stars">★★★★★</div>
+      <p class="test-quote">"Really reliable and the price is very fair. I've set up a fortnightly plan and it's been brilliant every single time."</p>
+      <div class="test-author">
+        <div class="test-avatar">J</div>
+        <div>
+          <div class="test-name">James T.</div>
+          <div class="test-loc">Local neighbour</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card fade-up">
+      <div class="stars">★★★★★</div>
+      <p class="test-quote">"Super friendly and professional. Tidied up everything after finishing too. Exactly what I was looking for locally."</p>
+      <div class="test-author">
+        <div class="test-avatar">L</div>
+        <div>
+          <div class="test-name">Linda K.</div>
+          <div class="test-loc">Nearby resident</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="section-tag fade-up">Get started</div>
+  <h2 class="cta-title fade-up">Ready for a <em>perfect</em><br>lawn this week?</h2>
+  <p class="cta-sub fade-up">Leave your number and we'll get back to you within the hour.</p>
+  <div class="cta-form-wrap fade-up">
+    <form id="contactForm" action="https://formspree.io/f/xdapnplq" method="POST">
+      <div class="cta-row">
+        <input type="text" name="name" class="cta-input" placeholder="Your name" required />
+        <input type="text" name="phone" class="cta-input" placeholder="Phone number" />
+      </div>
+      <input type="email" name="email" class="cta-input" placeholder="Your email address" required style="margin-top:10px" />
+      <textarea name="message" class="cta-textarea" placeholder="Tell me about your lawn (size, how often, anything else?)" style="margin-top:10px"></textarea>
+      <button type="submit" class="btn-accent" style="margin-top:10px">Get my free quote →</button>
+    </form>
+    <p class="cta-success" id="successMsg">✓ Thanks! I'll be in touch very soon.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">PerfectGrass</div>
+  <div>© 2026 PerfectGrass. All rights reserved.</div>
+  <div>Local lawn care you can trust</div>
+</footer>
+
+<script>
+  // Grass blade animation
+  const wrap = document.getElementById('grassPattern');
+  if (wrap) {
+    const heights = [60,90,75,110,55,95,80,65,100,70,85,60,105,75,90,55,80,95,65,110,70,85,60,100,75,90,55,80,95,65];
+    heights.forEach((h, i) => {
+      const blade = document.createElement('div');
+      blade.className = 'blade';
+      blade.style.setProperty('--h', h + 'px');
+      blade.style.animationDelay = (i * 0.04) + 's';
+      wrap.appendChild(blade);
+    });
+  }
+
+  // Scroll fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Formspree AJAX submission
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      try {
+        const res = await fetch('https://formspree.io/f/xdapnplq', {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('successMsg').style.display = 'block';
+        } else {
+          btn.textContent = 'Try again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+      }
+    });
+  }
+</script>
+</body>
+</html>
